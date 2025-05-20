@@ -2,11 +2,47 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simulador de Compras</title>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <h1>Simulador de Compras</h1>
-  <p>Simula tu carrito de compras: ingresa cantidad, precios, aplica IVA y envío.</p>
+  <main class="container">
+    <h1>🛒 Simulador de Compras</h1>
+    <p>Agregá productos a tu carrito y simulá el total con IVA y envío.</p>
+
+    <!-- Formulario para cargar productos -->
+    <form id="form-producto">
+      <div class="form-group">
+        <label for="nombre">Nombre del producto:</label>
+        <input type="text" id="nombre" required />
+      </div>
+
+      <div class="form-group">
+        <label for="precio">Precio del producto (ARS):</label>
+        <input type="number" id="precio" min="0" required />
+      </div>
+
+      <button type="submit">Agregar al carrito</button>
+    </form>
+
+    <!-- Lista de productos cargados -->
+    <section id="lista-productos">
+      <h2>📦 Productos en tu carrito:</h2>
+      <ul id="productos-ul"></ul>
+    </section>
+
+    <!-- Botón para procesar compra -->
+    <button id="btn-procesar">Procesar Compra</button>
+
+    <!-- Resumen de la compra -->
+    <section id="resumen-compra">
+      <h2>💸 Resumen de la compra</h2>
+      <div id="resumen-detalles"></div>
+    </section>
+  </main>
+
   <script src="js/script.js"></script>
 </body>
 </html>
+

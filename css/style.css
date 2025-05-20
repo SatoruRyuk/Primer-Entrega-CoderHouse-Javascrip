@@ -1,0 +1,95 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 2rem;
+  }
+  
+
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  h1, h2 {
+    margin-bottom: 1rem;
+    color: #4a148c; 
+  }
+  
+
+  form {
+    margin-bottom: 2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #999;
+    border-radius: 5px;
+  }
+  
+
+  button {
+    background-color: #6a1b9a; 
+    color: #fff;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #4a148c;
+  }
+  
+ 
+  #productos-ul {
+    list-style: none;
+    margin-top: 1rem;
+    padding-left: 0;
+  }
+  
+  #productos-ul li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+  
+
+  #resumen-compra {
+    margin-top: 2rem;
+    background-color: #e1bee7;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  #resumen-detalles {
+    margin-top: 1rem;
+    white-space: pre-line;
+  }
+  

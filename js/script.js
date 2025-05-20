@@ -1,53 +1,80 @@
-const IVA = 0.21;            // 21% de IVA
-const COSTO_ENVIO = 500;     // costo envío fijo en ARS
-let productos = [];          // array de nombre, precio
+const IVA = 0.21;
+const COSTO_ENVIO = 500;
+let productos = JSON.parse(localStorage.getItem("productos")) || [];
 
-function solicitarProductos() {
-  const cantidad = Number(prompt("¿Cuántos productos vas a comprar?"));
-  if (isNaN(cantidad) || cantidad < 1) {
-    alert("Ingresa un número de productos válido (>=1).");
-    return solicitarProductos();
-  }
-  for (let i = 1; i <= cantidad; i++) {
-    const nombre = prompt(`Nombre del producto #${i}:`);
-    const precio = Number(prompt(`Precio de "${nombre}" en ARS:`));
-    if (isNaN(precio) || precio < 0) {
-      alert("Precio inválido. Intenta de nuevo.");
-      i--;
-    } else {
-      productos.push({ nombre, precio });
-      console.log(`Producto agregado: ${nombre} - $${precio}`);
-    }
-  }
-}
+const form = document.getElementById("form-producto");
+const nombreInput = document.getElementById("nombre");
+const precioInput = document.getElementById("precio");
+const productosUl = document.getElementById("productos-ul");
+const btnProcesar = document.getElementById("btn-procesar");
+const resumenDiv = document.getElementById("resumen-detalles");
 
-function procesarCompra() {
-  const subtotal = productos.reduce((sum, p) => sum + p.precio, 0);
+renderizarProductos();
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const nombre = nombreInput.value.trim();
+  const precio = parseFloat(precioInput.value);
+
+  if (!nombre || isNaN(precio) || precio < 0) {
+    alert("Ingresá un nombre válido y un precio mayor o igual a 0.");
+    return;
+  }
+
+  const nuevoProducto = { nombre, precio };
+  productos.push(nuevoProducto);
+  localStorage.setItem("productos", JSON.stringify(productos));
+
+  renderizarProductos();
+
+  form.reset();
+});
+
+btnProcesar.addEventListener("click", () => {
+  if (productos.length === 0) {
+    resumenDiv.textContent = "No hay productos en el carrito.";
+    return;
+  }
+
+  const subtotal = productos.reduce((acc, p) => acc + p.precio, 0);
   const totalIva = subtotal * IVA;
   const totalConIva = subtotal + totalIva;
   const totalFinal = totalConIva + COSTO_ENVIO;
-  return { subtotal, totalIva, totalConIva, totalFinal };
+
+  const resumen = 
+    `• Subtotal: $${subtotal.toFixed(2)}\n` +
+    `• IVA (21%): $${totalIva.toFixed(2)}\n` +
+    `• Total con IVA: $${totalConIva.toFixed(2)}\n` +
+    `• Envío: $${COSTO_ENVIO.toFixed(2)}\n` +
+    `----------------------------\n` +
+    `🎯 TOTAL: $${totalFinal.toFixed(2)}`;
+
+  resumenDiv.textContent = resumen;
+});
+
+
+function renderizarProductos() {
+  productosUl.innerHTML = "";
+
+  productos.forEach((p, i) => {
+    const li = document.createElement("li");
+    li.textContent = `${p.nombre} - $${p.precio.toFixed(2)}`;
+    
+    const btnEliminar = document.createElement("button");
+    btnEliminar.textContent = "❌";
+    btnEliminar.style.marginLeft = "1rem";
+    btnEliminar.onclick = () => eliminarProducto(i);
+
+    li.appendChild(btnEliminar);
+    productosUl.appendChild(li);
+  });
 }
 
-function mostrarResumen(res) {
-  const mensaje = 
-    "✅ Resumen de tu compra:\n" +
-    `• Subtotal: $${res.subtotal.toFixed(2)}\n` +
-    `• IVA (21%): $${res.totalIva.toFixed(2)}\n` +
-    `• Total c/IVA: $${res.totalConIva.toFixed(2)}\n` +
-    `• Envío: $${COSTO_ENVIO}\n` +
-    `-------------------------\n` +
-    `🎯 TOTAL: $${res.totalFinal.toFixed(2)}`;
-  console.table(productos);
-  alert(mensaje);
-  console.log("Compra procesada:", res);
+
+function eliminarProducto(index) {
+  productos.splice(index, 1);
+  localStorage.setItem("productos", JSON.stringify(productos));
+  renderizarProductos();
+  resumenDiv.textContent = ""; 
 }
-
-function iniciarSimuladorCompras() {
-  solicitarProductos();
-  const resultado = procesarCompra();
-  mostrarResumen(resultado);
-}
-
-
-iniciarSimuladorCompras();
